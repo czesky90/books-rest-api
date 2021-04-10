@@ -1,0 +1,132 @@
+{
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string"
+    },
+    "totalItems": {
+      "type": "integer"
+    },
+    "items": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "etag": {
+              "type": "string"
+            },
+            "selfLink": {
+              "type": "string"
+            },
+            "volumeInfo": {
+              "type": "object"
+            },
+            "saleInfo": {
+              "type": "object",
+              "properties": {
+                "country": {
+                  "type": "string"
+                },
+                "saleability": {
+                  "type": "string"
+                },
+                "isEbook": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "country",
+                "saleability",
+                "isEbook"
+              ]
+            },
+            "accessInfo": {
+              "type": "object",
+              "properties": {
+                "country": {
+                  "type": "string"
+                },
+                "viewability": {
+                  "type": "string"
+                },
+                "embeddable": {
+                  "type": "boolean"
+                },
+                "publicDomain": {
+                  "type": "boolean"
+                },
+                "textToSpeechPermission": {
+                  "type": "string"
+                },
+                "epub": {
+                  "type": "object",
+                  "properties": {
+                    "isAvailable": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "isAvailable"
+                  ]
+                },
+                "pdf": {
+                  "type": "object",
+                  "properties": {
+                    "isAvailable": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "isAvailable"
+                  ]
+                },
+                "webReaderLink": {
+                  "type": "string"
+                },
+                "accessViewStatus": {
+                  "type": "string"
+                },
+                "quoteSharingAllowed": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "country",
+                "viewability",
+                "embeddable",
+                "publicDomain",
+                "textToSpeechPermission",
+                "epub",
+                "pdf",
+                "webReaderLink",
+                "accessViewStatus",
+                "quoteSharingAllowed"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "etag",
+            "selfLink",
+            "volumeInfo",
+            "saleInfo",
+            "accessInfo"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "kind",
+    "totalItems",
+    "items"
+  ]
+}
