@@ -1,32 +1,25 @@
-from bson import ObjectId
 from pymongo import MongoClient
 import os
 
 
 class SessionDB:
     def __init__(self):
-        DATABASE_URI = os.environ['DATABASE_URI']
-        self.client = MongoClient(DATABASE_URI)
+        MONGODB_URI = os.environ['MONGODB_URI']
+        self.client = MongoClient(MONGODB_URI)
         self.database = self.client["library"]
         self.collection = self.database["books"]
 
-
     def load_books(self):
         books = self.collection.find()
-        output = []
-        for book in books:
-            elem = {}
-            for item in book:
-                if item == '_id':
-                    elem[item] = str(book[item])
-                else:
-                    elem[item] = book[item]
-            output.append(elem)
+        output = [{item: data[item] for item in data if item != '_id'} for data in books]
         return output
 
     def load_book(self, bookid):
-        data = self.collection.find_one({"_id": ObjectId(bookid)})
-        output = {item: data[item] for item in data if item != '_id'}
+        try:
+            data = self.collection.find_one({"bookid": bookid})
+            output = {item: data[item] for item in data if item != '_id'}
+        except BaseException:
+            output = {}
         return output
 
     def sort_books(self, data, dec):
@@ -38,9 +31,28 @@ class SessionDB:
             output = [{item: data[item] for item in data if item != '_id'} for data in sorted_books]
         return output
 
-    def save_all(self, data):
-        newbookslist = data
-        self.collection.insert_many(newbookslist)
+    def filter_books(self, data):
+        # if len(data) == 1:
+        #     filtered_books = self.collection.find(data[0])
+        # else:
+        filtered_books = []
+        for arg in data:
+            for book in self.collection.find(data[data.index(arg)]):
+                if book not in filtered_books:
+                    filtered_books.append(book)
+
+        output = [{item: data[item] for item in data if item != '_id'} for data in filtered_books]
+        return output
+
+    def insert_all(self, data):
+        new_books_list = data
+        self.collection.insert_many(new_books_list)
         output = {'Status': 'Successfully Inserted'}
         return output
+
+    def delete_book(self, data):
+        self.collection.delete_one({'bookid': data})
+        output = data
+        return output
+
 

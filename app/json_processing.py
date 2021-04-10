@@ -32,17 +32,18 @@ class JsonProcessing:
         :param: JSON content
         :return parsed_data: a list of volumes
         """
+        list_of_volume_info = []
+        for item in self.json_content['items']:
+            lst = []
+            for info in item:
+                if info == 'volumeInfo' or info == 'id':
+                    lst.append(item[info])
 
-        list_of_volume_info = [item[info] for item in self.json_content['items'] for info in item if info == 'volumeInfo']
-        # list_of_id = [item[info] for item in self.json_content['items'] for info in item if info == 'id']
-        #
-        #
-        #
-        #
-        # # list_of_id = [item[info] for item in self.json_content['items'] for info in item if info == 'id']
-        # # list_of_info =
+            lst[1]['bookid'] = lst[0]
+            list_of_volume_info.append(lst[1])
 
-        searched_information = ["title", "authors", "published_date", "categories", "average_rating", "ratings_count", "thumbnail"]
+        searched_information = ["title", "authors", "published_date", "categories",
+                                "average_rating", "ratings_count", "thumbnail", "bookid"]
 
         extracted_data = []
         for raw_information in list_of_volume_info:
