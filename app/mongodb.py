@@ -32,14 +32,10 @@ class SessionDB:
         return output
 
     def filter_books(self, data):
-        # if len(data) == 1:
-        #     filtered_books = self.collection.find(data[0])
-        # else:
-        filtered_books = []
-        for arg in data:
-            for book in self.collection.find(data[data.index(arg)]):
-                if book not in filtered_books:
-                    filtered_books.append(book)
+        if len(data) == 1:
+            filtered_books = self.collection.find(data[0])
+        else:
+            filtered_books = self.collection.find({"$and": data})
 
         output = [{item: data[item] for item in data if item != '_id'} for data in filtered_books]
         return output
@@ -54,5 +50,3 @@ class SessionDB:
         self.collection.delete_one({'bookid': data})
         output = data
         return output
-
-
