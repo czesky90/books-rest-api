@@ -34,13 +34,13 @@ class JsonProcessing:
         """
         list_of_volume_info = []
         for item in self.json_content['items']:
-            lst = []
+            auxiliary_list = []
             for info in item:
                 if info == 'volumeInfo' or info == 'id':
-                    lst.append(item[info])
+                    auxiliary_list.append(item[info])
 
-            lst[1]['bookid'] = lst[0]
-            list_of_volume_info.append(lst[1])
+            auxiliary_list[1]['bookid'] = auxiliary_list[0]
+            list_of_volume_info.append(auxiliary_list[1])
 
         searched_information = ["title", "authors", "published_date", "categories",
                                 "average_rating", "ratings_count", "thumbnail", "bookid"]

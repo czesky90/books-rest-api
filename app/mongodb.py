@@ -9,9 +9,14 @@ class SessionDB:
         self.database = self.client["library"]
         self.collection = self.database["books"]
 
+    @staticmethod
+    def data_presentation(data_from_db):
+        book_list = [{item: data[item] for item in data if item != '_id'} for data in data_from_db]
+        return book_list
+
     def load_books(self):
         books = self.collection.find()
-        output = [{item: data[item] for item in data if item != '_id'} for data in books]
+        output = self.data_presentation(books)
         return output
 
     def load_book(self, bookid):
@@ -25,10 +30,10 @@ class SessionDB:
     def sort_books(self, data, dec):
         if not dec:
             sorted_books = self.collection.find().sort(data)
-            output = [{item: data[item] for item in data if item != '_id'} for data in sorted_books]
+            output = self.data_presentation(sorted_books)
         else:
             sorted_books = self.collection.find().sort(data, -1)
-            output = [{item: data[item] for item in data if item != '_id'} for data in sorted_books]
+            output = self.data_presentation(sorted_books)
         return output
 
     def filter_books(self, data):
@@ -37,7 +42,7 @@ class SessionDB:
         else:
             filtered_books = self.collection.find({"$and": data})
 
-        output = [{item: data[item] for item in data if item != '_id'} for data in filtered_books]
+        output = self.data_presentation(filtered_books)
         return output
 
     def insert_all(self, data):
